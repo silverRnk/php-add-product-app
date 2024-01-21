@@ -1,0 +1,16 @@
+.my-card-style {
+    overflow-x: auto;
+}
+
+.button-container{
+  margin: 15px 0
+}
+
+#product-table-head > tr > * {
+  text-align: center;
+}
+
+.my-table-body > tr > *{
+  text-align: center;
+  vertical-align: middle;
+}

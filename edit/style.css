@@ -1,0 +1,12 @@
+
+
+.my-card-style{
+  max-width: 780px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.my-h5{
+  font-size: 1rem;
+  color: gray;
+}
