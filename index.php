@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,7 @@
 </head>
 
 <?php
-
+  
 
 ?>
 
@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody id='product-table-data' class="my-table-body">
-          <tr>
+          <!-- <tr>
             <th scope="row">Coke</th>
             <td>coke</td>
             <td>10.00</td>
@@ -59,7 +59,7 @@
                   </ul>
                 </div>
               </td>
-              <tr>
+              <tr> -->
         </tbody>
       </table>
     </div>
@@ -69,11 +69,27 @@
 
     <script>
         function addTableRowAll(products){
-          let tableBodyDOM = document.findByID('product-table-data');
+          let tableBodyDOM = document.getElementById('product-table-data');
           data.forEach(prodcut => {
 
           })
         }
+
+        function getProducts(){
+          let xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = function() {
+            if(this.readystate == 4 && this.status == 200){
+              document.getElementById('product-table-dat').innerHTML = this.responseText 
+            }
+          }
+
+          xmlHttp.open('GET', "init.php", true);
+          xmlHttp.send();
+        }
+    </script>
+
+    <script>
+        getProducts();
     </script>
 
 </body>
