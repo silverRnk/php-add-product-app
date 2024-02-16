@@ -6,12 +6,15 @@ class StorePDO extends PDO {
 
         if (!$settings = parse_ini_file($file, TRUE)) throw new exeption('Unable to open ' . $file . '.');
 
-        $dns = $settings['database']['driver'] .
-        ':host=' . $settings['database']['host'] .
-        ((!empty($settings['database']['port'])) ? (';port=' . $settings['database']['port']) : '') .
-        ';dbname = ' . $settings['database']['schema'];
+        $dsn = "mysql:host=localhost;dbname=product_database;";
+        // $dns = $settings['database']['driver'] .
+        // ':host=' . $settings['database']['host'] .
+        // ((!empty($settings['database']['port'])) ? (';port=' . $settings['database']['port']) : '') .
+        // ';dbname = ' . $settings['database']['schema'];
 
-        parent::__construct($dns, $settings['database']['username'], $settings['database']['password']);
+        // parent::__construct($dns, $settings['database']['username'], $settings['database']['password']);
+        parent::__construct($dsn, 'root', 'Oyasumi21');
+
     }
 
 }
@@ -22,22 +25,33 @@ class DataMapper {
 
     public static function init($db){
         
-        sefl::$db = $db;
+        self::$db = $db;
+    }
+
+    public function __destruct(){
+        self::$db = null;
     }
 }
 
 class ProductMapper extends DataMapper {
 
     public function create($product) {
-        //TODO
+        $sth = parent::$db->prepare('INSERT INTO PRODUCT (product_name, unit, price, date_expiry, available_inventory) values '.
+        '(:product_name, :unit, :price, :date_expiry, :available_inventory);');
+
+        $sth->execute($product);
+
+        return parent::$db->lastInsertId();
     }
 
     public function getProduct($id) {
-        //TODO
+
+         $stm = parent::$db->query('SELECT * FROM PRODUCT WHERE id ='. $id);
+         return $stm->fetchAll()[0];
     }
 
     public function getProducts() {
-        return $db->query('SELECT * FROM PRODUCTS');
+        return parent::$db->query('SELECT * FROM PRODUCT');
     }
 
     public function update($id, $data) {
@@ -45,7 +59,23 @@ class ProductMapper extends DataMapper {
     }
 
     public function delete($id) {
-        //TODO
+
+        $status = 0;
+        $sql = 'DELETE FROM product
+        WHERE id = :product_id';
+
+        $statement = parent::$db->prepare($sql);
+        $statement->bindParam('product_id', $id, PDO::PARAM_INT);
+
+        if ($statement->execute()) {
+            $status = 1;
+        }
+
+        return $status;
+    }
+
+    public function __destruct(){
+        parent::__destruct();
     }
     
 }

@@ -1,6 +1,12 @@
 .my-card-style {
     overflow-x: auto;
+    height: 200px;
     min-height: 300px;
+}
+
+#product-table-data {
+    text-align: center;
+    vertical-align: middle;
 }
 
 
